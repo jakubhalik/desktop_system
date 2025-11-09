@@ -1,0 +1,235 @@
+bindkey -v
+
+#source ~/d/g/gh/scripts/generateAliases.sh
+#source ~/d/g/gh/scripts/generateAliases.zsh
+
+export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
+
+export HISTSIZE=99999
+export SAVEHIST=99999
+export HISTFILE=~/.zsh_history
+
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+export ESTDIR=/home/x/d/g/c/speech_tools
+
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+export EDITOR=nvim
+
+export GOTELEMETRY=off
+
+export LS_COLORS="di=1;34:fi=0;31"
+
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
+
+bindkey '^[[Z' reverse-menu-complete
+
+function vim_substitute() {
+        local substitution
+        read "substitution?:s/"
+
+        if [[ $substitution =~ s/(.)((?:\\.|[^\\\1])*)\1((?:\\.|[^\\\1])*)\1([g]*) ]]; then
+                local delimiter="${BASH_REMATCH[1]}"
+                local pattern="${BASH_REMATCH[2]}"
+                local replacement="${BASH_REMATCH[3]}"
+                local flags="${BASH_REMATCH[4]}"
+                if [[ $flags == *g* ]]; then
+                        BUFFER="${BUFFER//$pattern/$replacement}"
+                else
+                        BUFFER="${BUFFER/$pattern/$replacement}"
+                fi
+                zle reset-prompt
+        else
+                zle -M "Invalid substitution"
+        fi
+}
+zle -N vim_substitute
+bindkey -M vicmd ':' vim_substitute
+
+
+yz() {
+    local tmpfile="$(mktemp)"
+    yazi "$@" --cwd-file="$tmpfile"
+    if [ -f "$tmpfile" ]; then
+        local newdir="$(cat "$tmpfile")"
+        rm -f "$tmpfile"
+        if [ -d "$newdir" ]; then
+            cd "$newdir"
+        fi
+    fi
+}
+
+#if [ -f "$HOME/.cache/wal/colors.sh" ]; then
+#    source "$HOME/.cache/wal/colors.sh"
+#fi
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+PROMPT='[%F{#22c55e}%n@%F{#38bdf8}%m %F{#14b8a6}%~%F{none}] '
+
+#fee2e2
+#fecaca
+#fca5a5
+#f87171
+#ef4444
+#ffedd5
+#fed7aa
+#fdba74
+#fb923c
+#f97316
+#ea580c
+#fef3c7
+#fde68a
+#fcd34d
+#fbbf24
+#f59e0b
+#d97706
+#fef9c3
+#fef08a
+#fde047
+#facc15
+#eab308
+#ecfccb
+#d9f99d
+#bef264
+#a3e635
+#84cc16
+#65a30d
+#4d7c0f
+#3f6212
+#365314
+#1a2e05
+#dcfce7
+#bbf7d0
+#86efac
+#4ade80
+#22c55e
+#16a34a
+#15803d
+#166534
+#14532d
+#052e16
+#d1fae5
+#a7f3d0
+#6ee7b7
+#34d399
+#10b981
+#059669
+#047857
+#065f46
+#064e3b
+#022c22
+#ccfbf1
+#99f6e4
+#5eead4
+#2dd4bf
+#14b8a6
+#0d9488
+#0f766e
+#115e59
+#134e4a
+#042f2e
+#cffafe
+#a5f3fc
+#67e8f9
+#22d3ee
+#06b6d4
+#0891b2
+#0e7490
+#bae6fd
+#7dd3fc
+#38bdf8
+#0ea5e9
+#0284c7
+#0369a1
+#93c5fd
+#60a5fa
+#3b82f6
+#2563eb
+#1d4ed8
+#1e40af
+#a5b4fc
+#818cf8
+#6366f1
+#4f46e5
+#4338ca
+#3730a3
+#c4b5fd
+#a78bfa
+#8b5cf6
+#7c3aed
+#6d28d9
+#5b21b6
+#4c1d95
+#2e1065
+#d8b4fe
+#c084fc
+#a855f7
+#9333ea
+#7e22ce
+#6b21a8
+#581c87
+#3b0764
+#f0abfc
+#e879f9
+#d946ef
+#c026d3
+#a21caf
+#86198f
+#701a75
+#4a044e
+#fbcfe8
+#f9a8d4
+#f472b6
+#ec4899
+#db2777
+#be185d
+#9d174d
+#831843
+#500724
+#fecdd3
+#fda4af
+#fb7185
+#f43f5e
+#e11d48
+#be123c
+#9f1239
+#881337
+#4c0519
+
+setopt append_history        # Append history to the file (not overwrite it)
+setopt share_history         # Share history across terminals
+setopt inc_append_history    # Immediately append to the history file, not just when the session ends
+
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' menu select=2
+
+# Aliases over .zshrc and .bashrc being automatically the same start
+while read -r alias_definition; do 
+    eval "alias $alias_definition"
+done << 'EOF' &> /dev/null
+EOF 
+
+# Aliases over .zshrc and .bashrc being automatically the same end
+
+tcurl() {curl --proxy socks5h://localhost:9050 "$@"}
+humannums() {rev | sed 's/.../& /g' | rev|sed 's/^ //'}
+humnums() {humannums}
+humnum() {humnums}
+iter() {xargs -I{} "$@"}
+bl() {bat -l conf}
+blp() {bat -l conf --no-pager}
+
+export GITLAB_HOME=/srv/gitlab
