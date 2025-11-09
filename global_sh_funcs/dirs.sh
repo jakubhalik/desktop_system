@@ -1,6 +1,4 @@
-
 h() { cd }
-
 
 s() { cd src }
 a() { cd app }
@@ -9,7 +7,6 @@ sa() { cd src/app }
 sac() { cd src/app/components }
 sc() { cd src/components }
 scu() { cd src/components/ui }
-
 p() { cd public }
 
 g() { cd ~/d/g }
