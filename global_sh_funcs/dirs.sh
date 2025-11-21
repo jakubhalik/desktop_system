@@ -23,7 +23,10 @@ rp() { cd ~/d/g/g/recipes/ }
 
 v() { cd ~/v }
 m() { cd ~/m }
-dw() { cd ~/do }
+dw() { 
+  dow=do
+  cd ~/$dow
+}
 do() { cd ~/d }
 
 ds() { cd /mnt/disco }

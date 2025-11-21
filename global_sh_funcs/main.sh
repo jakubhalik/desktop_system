@@ -1,4 +1,3 @@
-source dirs.sh
 b() { linux-terminal-battery-status }
 clo() { tty-clock }
 
@@ -43,7 +42,7 @@ bd() { bun run dev }
 bbu() { bun run build }
 
 br() { brave }
-fi() { firefox -no-remote -ProfileManager }
+fir() { firefox -no-remote -ProfileManager }
 to() { tor-browser }
 
 aus() { yt-dlp -x --audio-format mp3 }
@@ -136,11 +135,23 @@ bit() { uname -m }
 tw() { 
   echo "Real World Onion Sites, Dark.Fail, Ahmia.fi, Torch, Not Evil, Haystak, Onion Links, and The Hidden Wiki tor2web.nl onionengine.com" 
 }
+ts() { torsocks }
+torcurl() { curl --proxy socks5h://localhost:9050 $@ }
+tcurl () { torcurl $@ }
+w3mi() { w3m -o auto_image=TRUE }
+tw3mi() { torsocks w3m -o auto_image=TRUE }
+twm() { torsocks w3m -o auto_image=TRUE }
+trans() { torsocks trans }
+proxies() { 
+  cat ~/d/g/g/proxies/anonymous_proxies|snt; 
+  echo "You have $(echo $(cat ~/d/g/g/proxies/anonymous_proxies|wc -l)-1|bc|snt) anonymous proxies available :-)" 
+}
+torip() { zsh -ic "cd ~/safepath/temp/; tcurl -s https://check.torproject.org|grep IP>tmp.html;w3m -dump -T text/html tmp.html>tmp_w3m;echo;cat tmp_w3m|sed 's/IP/tor IP/'| snt" }
 
 wb() { tcurl wttr.in/Brno }
-wbb() { curl https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | nv }
-wbc() { curl https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | grep °C | nv }
-wbs() { curl https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | grep -A 2 Slunce | nv }
+wbb() { tcurl https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ }
+wbc() { tcurl -s https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | grep °C }
+wbs() { tcurl -s https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | grep -A 2 Slunce }
 
 ce() { crontab -e }
 crl() { crontab -l }
@@ -175,6 +186,11 @@ randombday() { printf "%02d/%02d/%d\n" $((RANDOM % 31 + 1)) $((RANDOM % 12 + 1))
 pstat() { ps aux|head -n1 }
 pstats() { pstat }
 pst() { pstat }
+isproc() { ps aux|grep }
+allproc() {ps aux}
+allprocs() {allproc}
+alproc() {allrpoc}
+procsamount() {allproc|wc -l}
 
 clk() { xdotool click 1 }
 
@@ -190,19 +206,6 @@ lss() { ls --color }
 lsc() { ls --color }
 
 perm() { echo "| Permission  | Binary | Octal |\n| ----------- | ------ | ----- |\n| Read (r)    | \`100\`  | \`4\`   |\n| Write (w)   | \`010\`  | \`2\`   |\n| Execute (x) | \`001\`  | \`1\`   |" }
-
-ts() { torsocks }
-torcurl() { curl --proxy socks5h://localhost:9050 $@ }
-tcurl () { torcurl $@ }
-w3mi() { w3m -o auto_image=TRUE }
-tw3mi() { torsocks w3m -o auto_image=TRUE }
-twm() { torsocks w3m -o auto_image=TRUE }
-trans() { torsocks trans }
-proxies() { 
-  cat ~/d/g/g/proxies/anonymous_proxies|snt; 
-  echo "You have $(echo $(cat ~/d/g/g/proxies/anonymous_proxies|wc -l)-1|bc|snt) anonymous proxies available :-)" 
-}
-torip() { zsh -ic "cd ~/safepath/temp/; tcurl -s https://check.torproject.org|grep IP>tmp.html;w3m -dump -T text/html tmp.html>tmp_w3m;echo;cat tmp_w3m|sed 's/IP/tor IP/'| snt" }
 
 nonohup() { find .|grep nohup.out && echo "there is an nohup.out file" || echo "\nthere is not a nohup.out file anywhere I can access without sudo in /home/x" }
 
@@ -224,8 +227,6 @@ lsmimes="grep -hPo  }(?<=<mime-type type=\")[^\"]+' /usr/share/mime/packages/*.x
 
 iftmp() { find tmp>/dev/null 2>&1 && echo "there already is a tmp file" || echo "there is no tmp file yet - proceeding normally" && }
 istmpgon() { find tmp>/dev/null 2>&1 && echo "somehow tmp file still here" || echo "tmp file rmed as should" }
-
-isproc() { ps aux|grep }
 
 vlcmin() { vlc --intf dummy }
 
