@@ -4,30 +4,41 @@ iter () {
 pathtothisdir=~/d/g/g/desktop_system
 sourcethese="directories, geo"
 parseforiter() { tr ", " "\n" }
-echo $sourcethese | parseforiter | iter source $pathtothisdir/{}
+echo $sourcethese | parseforiter | iter zsh -ic "find $pathtothisdir/{}.sh"
+echo $sourcethese | parseforiter | iter zsh -ic "source $pathtothisdir/{}.sh"
 
 b() { linux-terminal-battery-status }
 clo() { tty-clock }
 
 al() { alsamixer }
-asm() { amixer set Master }
+asm() { 
+  amixer set Master $1%
+}
 
-nv() { nvim }
+nv() { nvim $@ }
 z() { nv ~/.zshrc }
 vz() { vim ~/.zshrc }
 nvt() { nvim --cmd te }
 
-so() { source }
+so() { source $@ }
 
-sp() { sudo pacman }
-i() { sp -S --needed }
+sp() { sudo pacman $@ }
+i() { sp -S --needed $@ }
 u() { sp -Syu }
-y() { yay }
-ys() { y -S }
-yu() { y -Syu }
-mp() { makepkg -si }    
-mc() { sudo make clean install }
-ispac() { pacman -Q| grep }
+y() { yay $@ }
+ys() { y -S $@ }
+yu() { y -Syu $@ }
+mp() { makepkg -si $@ }
+mc() { sudo make clean install $@ }
+
+ispac() { 
+  pacman -Q| grep $@
+}
+
+isbin() {
+  ls /usr/bin | grep $@
+}
+
 clearcach() { 
   echo "pacman -Sc or yay -Sc" 
 }
@@ -53,37 +64,41 @@ br() { brave }
 fir() { firefox -no-remote -ProfileManager }
 to() { tor-browser }
 
-aus() { yt-dlp -x --audio-format mp3 }
-vs() { yt-dlp bestvideo+bestaudio }
+aus() { yt-dlp -x --audio-format mp3 $@ }
+vs() { yt-dlp bestvideo+bestaudio $@ }
 
-au() { mpv --input-ipc-server=/tmp/mpvsocket }
-auv() { mpv --hwdec=qsv --input-ipc-server=/tmp/mpvsocket }
+au() { mpv --input-ipc-server=/tmp/mpvsocket $@ }
+auv() { mpv --hwdec=qsv --input-ipc-server=/tmp/mpvsocket $@ }
 
 v() { cd ~/v }
 
 ash() { au -shuffle *.mp3 }
 ashv() { au -shuffle * }
-ashh() { find . -type f -iname "**" -print0 | shuf -z | xargs -0 mpv --input-ipc-server=/tmp/mpvsocket }
-ass() { au -af scaletempo -speed 1.5 -shuffle *.mp3 }
+ashh() { 
+  find . -type f -iname "**" -print0 | shuf -z | xargs -0 mpv --input-ipc-server=/tmp/mpvsocket 
+}
+
+asn() { au -af scaletempo -speed $1 -shuffle *.mp3 }
+ass() { asn 1.5 }
 
 hi() { cat ~/.zsh_history }
 he() { hi | hiremcrap }
 
-sy() { sudo systemctl }
+sy() { sudo systemctl $@ }
 
 die() { poweroff } 
 re() { reboot }
 
-wi() { nmcli dev wifi }
-we() { wi connect }
+wi() { nmcli dev wifi $@ }
+we() { wi connect $@ }
 
-di() { dict }
+di() { dict $@ }
 
 le() { less }
 
 cr() { clear }
 
-lc() { locate }
+lc() { locate $@ }
 
 start_ssh_keys_sess() { 
   eval $(ssh-agent -s) 
@@ -98,39 +113,39 @@ sst() { ssh -T git@github.com }
 math() { bc }
 ma() { ma }
 
-shct() { shotcut }
-gi() { gimp }
+shct() { shotcut $@ }
+gi() { gimp $@ }
 
 ne() { neofetch }
 nem() { ne | grep Memory }
 da() { df -h|head -n 1;df -h|grep -E "root|home"; acpi; nem; }
 
-pdf_obsolete() { zathura }    
-pdf() { mupdf }
-li() { libreoffice }
+pdf_obsolete() { zathura $@ }
+pdf() { mupdf $@ }
+li() { libreoffice $@ }
 
-dk() { docker-compose up --build -d }
+dk() { docker-compose up --build -d $@ }
 gr() { docker exec -it gitlab-server gitlab-rails console }
 
-ic() { ~/d/g/gh/scripts/download_all_vids_from_a_youtube_channel.sh }
+ic() { ~/d/g/gh/scripts/download_all_vids_from_a_youtube_channel.sh $@ }
 
 bs() { acpi }
 
-f() { feh }
-ff() { f --draw-filename }
-ft() { feh -g 640x480 --auto-zoom --thumbnails }
-nf() { feh --zoom 20 --draw-filename }
-sxt() { sxiv -t }
-mo() { mogrify -resize 800x800 -path }
-pi() { pixterm }
-img() { sxiv }
-imgs() { geeqie }
+f() { feh $@ }
+ff() { f --draw-filename $@ }
+ft() { feh -g 640x480 --auto-zoom --thumbnails $@ }
+nf() { feh --zoom 20 --draw-filename $@ }
+sxt() { sxiv -t $@ }
+mo() { mogrify -resize 800x800 -path $@ }
+pi() { pixterm $@ }
+img() { sxiv $@ }
+imgs() { geeqie $@ }
 glo() { grim /tmp/lockscreen.png; swaylock --image /tmp/lockscreen.png; rm /tmp/lockscreen.png }
 
 wip() { 
   echo "my IP: $(curl -s ipinfo.io/ip)" 
 }
-it() {  nmap -Pn 86.49.243.46 -p 80,443,8080 }
+#it() {  nmap -Pn 86.49.243.46 -p 80,443,8080 } # wtf ????????? no idea what was this shit and why it had the no sense making generic name
 
 czt() { sudo timedatectl set-timezone Europe/Prague }
 
@@ -148,10 +163,10 @@ tw() {
 ts() { torsocks }
 torcurl() { curl --proxy socks5h://localhost:9050 $@ }
 tcurl () { torcurl $@ }
-w3mi() { w3m -o auto_image=TRUE }
-tw3mi() { torsocks w3m -o auto_image=TRUE }
-twm() { torsocks w3m -o auto_image=TRUE }
-trans() { torsocks trans }
+w3mi() { w3m -o auto_image=TRUE $@ }
+tw3mi() { torsocks w3m -o auto_image=TRUE $@ }
+twm() { torsocks w3m -o auto_image=TRUE $@ }
+trans() { torsocks trans $@ }
 proxies() { 
   cat ~/d/g/g/proxies/anonymous_proxies|snt; 
   echo "You have $(echo $(cat ~/d/g/g/proxies/anonymous_proxies|wc -l)-1|bc|snt) anonymous proxies available :-)" 
@@ -196,10 +211,12 @@ randombday() { printf "%02d/%02d/%d\n" $((RANDOM % 31 + 1)) $((RANDOM % 12 + 1))
 pstat() { ps aux|head -n1 }
 pstats() { pstat }
 pst() { pstat }
-isproc() { ps aux|grep }
+
+isproc() { ps aux|grep $@ }
+
 allproc() {ps aux}
 allprocs() {allproc}
-alproc() {allrpoc}
+
 procsamount() {allproc|wc -l}
 procamount() { procsamount }
 
@@ -207,11 +224,14 @@ clk() { xdotool click 1 }
 
 fa() { fastfetch --logo arch2 }
 
+
 nu() { cd ~/d/g/g/numbers }
 canu() { cat ~/d/g/g/numbers/numbers }
 canum() { cat ~/d/g/g/numbers/numbers }
+
 nuls="canu|grep -Ev  }([0-9].*){9}'"
 numls() {nuls}
+
 
 lss() { ls --color }
 lsc() { ls --color }
@@ -232,7 +252,7 @@ lsr() { ~/d/g/g/scripts/lsr.sh }
 lsrr() { ~/d/g/g/scripts/lsrr.sh }
 
 bat() { bat --theme ansi }
-ccat() { ccat --bg=dark }
+#ccat() { ccat --bg=dark }
 
 zfind() { cat ~/.zshrc|grep }
 
@@ -249,5 +269,5 @@ istmpgon() {
   find tmp>/dev/null 2>&1 && echo "somehow tmp file still here" || echo "tmp file rmed as should" 
 }
 
-vlcmin() { vlc --intf dummy }
+vlcmin() { vlc --intf dummy $@ }
 
