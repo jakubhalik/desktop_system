@@ -77,7 +77,11 @@ cr() { clear }
 
 lc() { locate }
 
-e() { eval "\$(ssh-agent -s)" }
+start_ssh_keys_sess() { 
+  eval $(ssh-agent -s) 
+}
+e() { start_ssh_keys_sess }
+
 soa() { ssh-add ~/.ssh/github_ed25519 }
 sog() { ssh-add ~/.ssh/gitlab_ed25519 }
 ssg() { ssh-add ~/.ssh/silixcon_gitlab_ed25519 }
