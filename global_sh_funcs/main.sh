@@ -1,3 +1,11 @@
+iter () {
+	xargs -I{} $@
+}
+pathtothisdir=~/d/g/g/desktop_system
+sourcethese="directories, geo"
+parseforiter() { tr ", " "\n" }
+echo $sourcethese | parseforiter | iter source $pathtothisdir/{}
+
 b() { linux-terminal-battery-status }
 clo() { tty-clock }
 
@@ -108,8 +116,6 @@ ic() { ~/d/g/gh/scripts/download_all_vids_from_a_youtube_channel.sh }
 
 bs() { acpi }
 
-lsd() { lsblk }
-
 f() { feh }
 ff() { f --draw-filename }
 ft() { feh -g 640x480 --auto-zoom --thumbnails }
@@ -126,7 +132,7 @@ wip() {
 }
 it() {  nmap -Pn 86.49.243.46 -p 80,443,8080 }
 
-czt() { sudo timedatectl set-timezone  }Europe/Prague''
+czt() { sudo timedatectl set-timezone Europe/Prague }
 
 ra() { openssl rand -base64 1000 }
 
@@ -195,6 +201,7 @@ allproc() {ps aux}
 allprocs() {allproc}
 alproc() {allrpoc}
 procsamount() {allproc|wc -l}
+procamount() { procsamount }
 
 clk() { xdotool click 1 }
 
@@ -204,17 +211,23 @@ nu() { cd ~/d/g/g/numbers }
 canu() { cat ~/d/g/g/numbers/numbers }
 canum() { cat ~/d/g/g/numbers/numbers }
 nuls="canu|grep -Ev  }([0-9].*){9}'"
-numls="canu|grep -Ev  }([0-9].*){9}'"
+numls() {nuls}
 
 lss() { ls --color }
 lsc() { ls --color }
 
-perm() { echo "| Permission  | Binary | Octal |\n| ----------- | ------ | ----- |\n| Read (r)    | \`100\`  | \`4\`   |\n| Write (w)   | \`010\`  | \`2\`   |\n| Execute (x) | \`001\`  | \`1\`   |" }
+perm() { 
+  echo "| Permission  | Binary | Octal |\n| ----------- | ------ | ----- |\n| Read (r)    | \`100\`  | \`4\`   |\n| Write (w)   | \`010\`  | \`2\`   |\n| Execute (x) | \`001\`  | \`1\`   |" 
+}
 
-nonohup() { find .|grep nohup.out && echo "there is an nohup.out file" || echo "\nthere is not a nohup.out file anywhere I can access without sudo in /home/x" }
+nonohup() { 
+  find .|grep "nohup.out" && echo "there is a nohup.out file" || echo "\nthere is not a nohup.out file anywhere I can access without sudo in /home/x" 
+}
 
-grepr() { ~/d/g/g/scripts/grepr.sh }
-grpr() { ~/d/g/g/scripts/grepr.sh }
+grepr() { 
+  ~/d/g/g/scripts/grepr.sh 
+}
+grpr() { grepr $@ }
 lsr() { ~/d/g/g/scripts/lsr.sh }
 lsrr() { ~/d/g/g/scripts/lsrr.sh }
 
@@ -229,8 +242,12 @@ snt() { ~/d/g/g/scripts/synthigh.sh }
 
 lsmimes="grep -hPo  }(?<=<mime-type type=\")[^\"]+' /usr/share/mime/packages/*.xml | sort -u"
 
-iftmp() { find tmp>/dev/null 2>&1 && echo "there already is a tmp file" || echo "there is no tmp file yet - proceeding normally" && }
-istmpgon() { find tmp>/dev/null 2>&1 && echo "somehow tmp file still here" || echo "tmp file rmed as should" }
+iftmp() { 
+  find tmp>/dev/null 2>&1 && echo "there already is a tmp file" || echo "there is no tmp file yet - proceeding normally" && 
+}
+istmpgon() { 
+  find tmp>/dev/null 2>&1 && echo "somehow tmp file still here" || echo "tmp file rmed as should" 
+}
 
 vlcmin() { vlc --intf dummy }
 

@@ -1,0 +1,3 @@
+timezones() {
+  timedatectl list-timezones
+}
