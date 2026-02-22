@@ -127,7 +127,9 @@ li() { libreoffice $@ }
 dk() { docker-compose up --build -d $@ }
 gr() { docker exec -it gitlab-server gitlab-rails console }
 
-ic() { ~/d/g/gh/scripts/download_all_vids_from_a_youtube_channel.sh $@ }
+ic() { 
+  ~/d/g/g/scripts/download_all_vids_from_a_youtube_channel.sh $@ 
+}
 
 bs() { acpi }
 
@@ -146,8 +148,6 @@ wip() {
   echo "my IP: $(curl -s ipinfo.io/ip)" 
 }
 #it() {  nmap -Pn 86.49.243.46 -p 80,443,8080 } # wtf ????????? no idea what was this shit and why it had the no sense making generic name
-
-czt() { sudo timedatectl set-timezone Europe/Prague }
 
 ra() { openssl rand -base64 1000 }
 
@@ -181,10 +181,33 @@ wbs() { tcurl -s https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-
 ce() { crontab -e }
 crl() { crontab -l }
 
-km() { ~/d/g/gh/scripts/kill_music.sh }
+km() { 
+  for pid in $(ps aux | grep '[m]player' | awk '{print $2}'); do
+    kill -9 $pid
+  done
+}
 
-ti() { ~/d/g/gh/scripts/timer.sh }
-td() { ~/d/g/gh/scripts/timer_dynamic.sh }
+ti() { 
+  seconds=0
+  while true; do
+    clear
+    printf "%02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
+    sleep 1
+    seconds=$((seconds+1))
+  done
+}
+td() {
+  read -sp 'What is the timer for: ' timer_purpose
+
+  seconds=0
+
+  while true; do
+    clear
+    printf "$timer_purpose: %02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
+    sleep 1
+    seconds=$((seconds+1))
+  done
+}
 
 el() { elisa }
 rd() { shortwave }
@@ -245,20 +268,60 @@ nonohup() {
 }
 
 grepr() { 
-  ~/d/g/g/scripts/grepr.sh 
+ grep -r --color=always "$1" | sed -E "s/($1)/\x1b[31m\1\x1b[0m/g"
 }
 grpr() { grepr $@ }
-lsr() { ~/d/g/g/scripts/lsr.sh }
-lsrr() { ~/d/g/g/scripts/lsrr.sh }
+lsr() { 
+  ls |grep "$1" | sed -E "s/($1)/\x1b[31m\1\x1b[0m/g"
+}
+lsrr() { 
+  ls -R |grep "$1" | sed -E "s/($1)/\x1b[31m\1\x1b[0m/g"
+}
 
-bat() { bat --theme ansi }
-#ccat() { ccat --bg=dark }
+bat() { bat --theme ansi $@ }
+#ccat() { ccat --bg=dark $@ }
 
 zfind() { cat ~/.zshrc|grep }
 
-synthigh() { ~/d/g/g/scripts/synthigh.sh }
-synt() { ~/d/g/g/scripts/synthigh.sh }
-snt() { ~/d/g/g/scripts/synthigh.sh }
+synthigh() { 
+  # Define ANSI color codes
+  # Using literal escape sequences for sed
+  red='\x1b[31m'
+  green='\x1b[32m'
+  yellow='\x1b[1;33m'
+  purple='\e[1;35m'
+  blue='\x1b[34m'
+  magenta='\x1b[35m'
+  cyan='\x1b[36m'
+  reset='\x1b[0m'
+
+  # Each 's' command performs a substitution.
+  # Order matters! For example, highlight comments *before* keywords to avoid issues.
+  sed -E "
+  # 1. Highlight comments (starting with # to end of line) - apply before other rules
+  s/(^|\s)(#.*)/\\1${magenta}\\2${reset}/g;
+
+  s/\b(if|then|else|elif|fi|for|in|do|done|while|until|function|return|export|local|declare|case|esac|break|continue|select|trap|read|set|unset|true|false)\b/${red}\1${reset}/g;
+
+  s/\b(echo|print|printf|cat|grep|sed|awk|cut|find|xargs|ls|cd|pwd|mv|cp|rm|mkdir|rmdir|touch|man|help|sudo|ssh|scp|git|curl|wget|python|node|npm|ruby|perl|go|java|gcc|make|configure)\b/${blue}\1${reset}/g;
+
+  s/(\b[0-9]+(\.[0-9]+)?\b)/${yellow}\1${reset}/g;
+
+  # variables (e.g., $VAR, ${VAR})
+  s/(\$[a-zA-Z_][a-zA-Z0-9_]*|\$\{[a-zA-Z_][a-zA-Z0-9_]*\})/${cyan}\1${reset}/g;
+
+  # quoted strings (single or double quotes)
+  # This is tricky with sed ; simple approach here.
+  s/(\"[^\"]*\")|('[^']*')/${green}\1${reset}/g;
+
+  "
+}
+synt() { 
+  synthigh
+}
+synt() { 
+  synt
+}
 
 lsmimes="grep -hPo  }(?<=<mime-type type=\")[^\"]+' /usr/share/mime/packages/*.xml | sort -u"
 
