@@ -1,3 +1,8 @@
+herepath=~/d/g/g/desktop_system/global_sh_funcs
+source $herepath/directories.sh
+source $herepath/data.sh
+source $herepath/geo.sh
+
 iter () {
 	xargs -I{} $@
 }
@@ -7,12 +12,35 @@ parseforiter() { tr ", " "\n" }
 echo $sourcethese | parseforiter | iter zsh -ic "find $pathtothisdir/{}.sh"
 echo $sourcethese | parseforiter | iter zsh -ic "source $pathtothisdir/{}.sh"
 
+humannums() {rev | sed 's/.../& /g' | rev|sed 's/^ //'}
+humnums() {humannums}
+humnum() {humnums}
+
+remspaces() {
+  tr -d " "
+}
+
+between () {
+	sed -n "s/.*${1}\(.*\)${2}.*/\1/p"
+}
+
+rmstdinfromtoEOF () {
+	sed "s/$1.*//"
+}
+
 b() { linux-terminal-battery-status }
 clo() { tty-clock }
 
 al() { alsamixer }
 asm() { 
   amixer set Master $1%
+}
+
+bl() {
+  bat -l conf
+}
+blp() {
+  bat -l conf --no-pager
 }
 
 nv() { nvim $@ }
@@ -31,12 +59,24 @@ yu() { y -Syu $@ }
 mp() { makepkg -si $@ }
 mc() { sudo make clean install $@ }
 
+uninstall () {
+	sudo rm $(which $1)
+}
+
+instal () {
+	sudo install $1 /usr/bin/
+}
+
 ispac() { 
   pacman -Q| grep $@
 }
 
 isbin() {
   ls /usr/bin | grep $@
+}
+
+lsbin () {
+  ls /usr/bin
 }
 
 clearcach() { 
@@ -110,6 +150,13 @@ sog() { ssh-add ~/.ssh/gitlab_ed25519 }
 ssg() { ssh-add ~/.ssh/silixcon_gitlab_ed25519 }
 sst() { ssh -T git@github.com }
 
+commitamount() {
+  git log|grep commit|wc -l
+}
+commitcount() { commitamount }
+comitcount() { commitamount }
+comitamount() { commitamount }
+
 math() { bc }
 ma() { ma }
 
@@ -148,6 +195,10 @@ wip() {
   echo "my IP: $(curl -s ipinfo.io/ip)" 
 }
 #it() {  nmap -Pn 86.49.243.46 -p 80,443,8080 } # wtf ????????? no idea what was this shit and why it had the no sense making generic name
+
+clc() {
+  curl localhost:$1
+}
 
 ra() { openssl rand -base64 1000 }
 
@@ -225,6 +276,14 @@ tra() {
 }
 
 pa() { grep -E "^(processor|cpu cores|siblings)" /proc/cpuinfo }
+threads() {echo "$(nproc)*$(lscpu|grep "per core"|onlynums)"|bc}
+
+arch () {
+	uname -m
+}
+
+lsfs() {df -T|grep root |awk '{print $2}'}
+lsusers() {cat /etc/passwd}
 
 ho() { hyprlock }
 sho() { systemctl suspend; hyprlock }
@@ -258,10 +317,6 @@ numls() {nuls}
 
 lss() { ls --color }
 lsc() { ls --color }
-
-perm() { 
-  echo "| Permission  | Binary | Octal |\n| ----------- | ------ | ----- |\n| Read (r)    | \`100\`  | \`4\`   |\n| Write (w)   | \`010\`  | \`2\`   |\n| Execute (x) | \`001\`  | \`1\`   |" 
-}
 
 nonohup() { 
   find .|grep "nohup.out" && echo "there is a nohup.out file" || echo "\nthere is not a nohup.out file anywhere I can access without sudo in /home/x" 
