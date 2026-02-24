@@ -4,7 +4,7 @@ iter () {
 parseforiter() { tr ", " "\n" }
 
 herepath=$HOME/d/g/g/desktop_system/global_sh_funcs
-sourcethese="directories, geo, data"
+sourcethese="directories, geo, data, complex_containeraztion"
 source $(echo $sourcethese|parseforiter|iter echo $herepath/{}.sh)
 source $herepath/directories.sh
 source $herepath/data.sh
@@ -243,31 +243,7 @@ ce() { crontab -e }
 crl() { crontab -l }
 
 km() { 
-  for pid in $(ps aux | grep '[m]player' | awk '{print $2}'); do
-    kill -9 $pid
-  done
-}
-
-ti() { 
-  seconds=0
-  while true; do
-    clear
-    printf "%02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
-    sleep 1
-    seconds=$((seconds+1))
-  done
-}
-td() {
-  read -sp 'What is the timer for: ' timer_purpose
-
-  seconds=0
-
-  while true; do
-    clear
-    printf "$timer_purpose: %02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
-    sleep 1
-    seconds=$((seconds+1))
-  done
+  $(ps aux | grep '[m]player' | awk '{print $2}')|iter kill -9 {}
 }
 
 el() { elisa }
@@ -323,7 +299,10 @@ nu() { cd ~/d/g/g/numbers }
 canu() { cat ~/d/g/g/numbers/numbers }
 canum() { cat ~/d/g/g/numbers/numbers }
 
-nuls="canu|grep -Ev  }([0-9].*){9}'"
+nuls() {
+  canu|grep -Ev  "([0-9].*){9}"
+}
+
 numls() {nuls}
 
 lss() { ls --color }
@@ -350,7 +329,7 @@ bat() { bat --theme ansi $@ }
 zfind() { cat ~/.zshrc|grep }
 
 
-lsmimes="grep -hPo  }(?<=<mime-type type=\")[^\"]+' /usr/share/mime/packages/*.xml | sort -u"
+alias lsmimes="grep -hPo  }(?<=<mime-type type=\")[^\"]+' /usr/share/mime/packages/*.xml | sort -u"
 
 iftmp() { 
   find tmp>/dev/null 2>&1 && echo "there already is a tmp file" || echo "there is no tmp file yet - proceeding normally" && 
@@ -401,41 +380,51 @@ synt() {
   synt
 }
 
-gamecontainer() {
-  id=$$-$(date +%s%N)
-  mkdir -p /tmp/sandbox-$id/{home,local,config,cache}
-  chmod 700 /tmp/sandbox-$id/home
-  bwrap \
-    --unshare-pid \
-    --unshare-uts \
-    --unshare-ipc \
-    --unshare-cgroup \
-    --ro-bind /usr /usr \
-    --ro-bind /etc /etc \
-    --ro-bind /sys /sys \
-    --ro-bind /opt /opt \
-    --symlink usr/lib /lib \
-    --symlink usr/lib64 /lib64 \
-    --symlink usr/bin /bin \
-    --symlink usr/sbin /sbin \
-    --proc /proc \
-    --dev-bind /dev /dev \
-    --tmpfs /tmp \
-    --bind /tmp/sandbox-$id/home /home/sandbox \
-    --bind /tmp/sandbox-$id/local /home/sandbox/.local \
-    --bind /tmp/sandbox-$id/config /home/sandbox/.config \
-    --bind /tmp/sandbox-$id/cache /home/sandbox/.cache \
-    --ro-bind /tmp/.X11-unix /tmp/.X11-unix \
-    --bind /run/user/$UID /run/user/$UID \
-    --setenv DISPLAY "$DISPLAY" \
-    --setenv WAYLAND_DISPLAY "$WAYLAND_DISPLAY" \
-    --setenv XDG_RUNTIME_DIR /run/user/$UID \
-    --setenv HOME /home/sandbox \
-    --setenv DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/$UID/bus" \
-    --setenv LIBGL_ALWAYS_SOFTWARE 1 \
-    --chdir /home/sandbox \
-    --die-with-parent \
-    --new-session \
-    "$@"
-  rm -rf /tmp/sandbox-$id
+# bash syntax
+# ti() { 
+#   seconds=0
+#   while true; do
+#     clear
+#     printf "%02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
+#     sleep 1
+#     seconds=$((seconds+1))
+#   done
+# }
+# td() {
+#   read -sp 'What is the timer for: ' timer_purpose
+#
+#   seconds=0
+#
+#   while true; do
+#     clear
+#     printf "$timer_purpose: %02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
+#     sleep 1
+#     seconds=$((seconds+1))
+#   done
+# }
+# zsh syntax
+#
+ti() {
+  local seconds=0
+  while true; {
+    clear
+    printf "%02d:%02d:%02d\n" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
+    sleep 1
+    seconds=$((seconds + 1))
+  }
 }
+
+td() {
+  local timer_purpose
+  read "timer_purpose?What is the timer for: "
+
+  local seconds=0
+
+  while true; {
+    clear
+    printf "%s: %02d:%02d:%02d\n" "$timer_purpose" $((seconds/3600)) $((seconds/60%60)) $((seconds%60))
+    sleep 1
+    seconds=$((seconds + 1))
+  }
+}
+
