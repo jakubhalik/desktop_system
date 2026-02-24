@@ -16,6 +16,9 @@ humannums() {rev | sed 's/.../& /g' | rev|sed 's/^ //'}
 humnums() {humannums}
 humnum() {humnums}
 
+onlynums() {sed 's/[^0-9]//g'}
+onlynum() {onlynums}
+
 remspaces() {
   tr -d " "
 }
@@ -214,7 +217,6 @@ csz() { chsh -s /usr/bin/zsh }
 csd() { chsh -s /usr/bin/dash }
 
 cx() { cal_extended }
-bit() { uname -m }
 
 tw() { 
   echo "Real World Onion Sites, Dark.Fail, Ahmia.fi, Torch, Not Evil, Haystak, Onion Links, and The Hidden Wiki tor2web.nl onionengine.com" 
@@ -286,9 +288,11 @@ tra() {
 pa() { grep -E "^(processor|cpu cores|siblings)" /proc/cpuinfo }
 threads() {echo "$(nproc)*$(lscpu|grep "per core"|onlynums)"|bc}
 
-arch () {
+architecture() {
 	uname -m
 }
+arch() { architecture }
+bit() { arch }
 
 lsfs() {df -T|grep root |awk '{print $2}'}
 lsusers() {cat /etc/passwd}
