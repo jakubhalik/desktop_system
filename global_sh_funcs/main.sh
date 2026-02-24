@@ -30,6 +30,7 @@ rmstdinfromtoEOF () {
 }
 
 common() { comm }
+common_lines_between_files_or_inputs() { comm }
 
 b() { linux-terminal-battery-status }
 clo() { tty-clock }
