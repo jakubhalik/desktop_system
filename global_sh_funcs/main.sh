@@ -298,7 +298,7 @@ clk() { xdotool click 1 }
 fa() { fastfetch --logo arch2 }
 
 
-nu() { cd ~/d/g/g/numbers }
+num() { cd ~/d/g/g/numbers }
 canu() { cat ~/d/g/g/numbers/numbers }
 canum() { cat ~/d/g/g/numbers/numbers }
 
