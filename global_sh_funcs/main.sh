@@ -1,16 +1,14 @@
-herepath=~/d/g/g/desktop_system/global_sh_funcs
-source $herepath/directories.sh
-source $herepath/data.sh
-source $herepath/geo.sh
-
 iter () {
 	xargs -I{} $@
 }
-pathtothisdir=~/d/g/g/desktop_system
-sourcethese="directories, geo"
 parseforiter() { tr ", " "\n" }
-echo $sourcethese | parseforiter | iter zsh -ic "find $pathtothisdir/{}.sh"
-echo $sourcethese | parseforiter | iter zsh -ic "source $pathtothisdir/{}.sh"
+
+herepath=$HOME/d/g/g/desktop_system/global_sh_funcs
+sourcethese="directories, geo, data"
+source $(echo $sourcethese|parseforiter|iter echo $herepath/{}.sh)
+source $herepath/directories.sh
+source $herepath/data.sh
+source $herepath/geo.sh
 
 humannums() {rev | sed 's/.../& /g' | rev|sed 's/^ //'}
 humnums() {humannums}
@@ -30,6 +28,8 @@ between () {
 rmstdinfromtoEOF () {
 	sed "s/$1.*//"
 }
+
+common() { comm }
 
 b() { linux-terminal-battery-status }
 clo() { tty-clock }

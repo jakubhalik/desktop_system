@@ -27,7 +27,7 @@ dw() {
   dow=do
   cd ~/$dow
 }
-do() { cd ~/d }
+do="cd ~/d"
 
 ds() { cd /mnt/disco }
 dsc() { cd /mnt/disco/disco }
