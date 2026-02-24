@@ -29,6 +29,8 @@ rmstdinfromtoEOF () {
 	sed "s/$1.*//"
 }
 
+alias count='echo "$(echo "$(ls -a|wc -l)-2"|bc) overall files/dirs in dir"'
+
 common() { comm }
 common_lines_between_files_or_inputs() { comm }
 
