@@ -30,6 +30,7 @@ lsbin () {
 clearcach() { 
   echo "pacman -Sc or yay -Sc" 
 }
+
 pakstat() { 
   echo "echo \"\nall packages: $(pacman -Q|wc -l)\"; 
   pacman -Q|wc -l;echo \"\nexplicitly installed: $(pacman -Qe|wc -l)\";

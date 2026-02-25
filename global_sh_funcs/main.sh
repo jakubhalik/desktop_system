@@ -4,11 +4,11 @@ iter () {
 parseforiter() { tr ", " "\n" }
 
 herepath=$HOME/d/g/g/desktop_system/global_sh_funcs
-sourcethese="directories, geo, data, complex_containeraztion, packaging"
-source $(echo $sourcethese|parseforiter|iter echo $herepath/{}.sh)
 source $herepath/directories.sh
 source $herepath/data.sh
 source $herepath/geo.sh
+source $herepath/complex_containerazitaion.sh
+source $herepath/packaging.sh
 
 humannums() {rev | sed 's/.../& /g' | rev|sed 's/^ //'}
 humnums() {humannums}
