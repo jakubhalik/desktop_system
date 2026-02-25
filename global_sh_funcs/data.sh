@@ -10,3 +10,22 @@ perm() {
 
 rights() {perm}
 
+path_to_encodings_tables_and_such=$HOME/d/g/g/encodings
+
+ansi() {
+  cat $path_to_encodings_tables_and_such/ANSI.md
+  echo 'run this command in a $() to see the colors'
+}
+
+ANSI() {ansi}
+terminal_colors() {ansi}
+terminal_cols() {ansi}
+terminalcolors() {ansi}
+terminalcol() {ansi}
+colors_to_use_in_terminal() {ansi}
+
+ascii() {
+  cat $path_to_encodings_tables_and_such/ascii.md
+}
+asci() { ascii }
+
