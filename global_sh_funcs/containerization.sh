@@ -1,3 +1,6 @@
+dk() { docker-compose up --build -d $@ }
+gr() { docker exec -it gitlab-server gitlab-rails console }
+
 gamecontainer() {
   id=$$-$(date +%s%N)
   mkdir -p /tmp/sandbox-$id/{home,local,config,cache}

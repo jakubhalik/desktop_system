@@ -14,7 +14,7 @@ path_to_encodings_tables_and_such=$HOME/d/g/g/encodings
 
 ansi() {
   cat $path_to_encodings_tables_and_such/ANSI.md
-  echo 'run this command in a $() to see the colors'
+  echo 'run this command in a echo $() to see the colors'
 }
 
 ANSI() {ansi}
@@ -28,4 +28,18 @@ ascii() {
   cat $path_to_encodings_tables_and_such/ascii.md
 }
 asci() { ascii }
+
+regex() {
+  cat $path_to_encodings_tables_and_such/regex.md
+}
+
+num() { cd ~/d/g/g/numbers }
+canu() { cat ~/d/g/g/numbers/numbers }
+canum() { canu }
+
+nuls() {
+  canu|grep -Ev "([0-9].*){9}"
+}
+
+numls() {nuls}
 

@@ -6,28 +6,11 @@ parseforiter() { tr ", " "\n" }
 herepath=$HOME/d/g/g/desktop_system/global_sh_funcs
 source $herepath/directories.sh
 source $herepath/data.sh
-source $herepath/geo.sh
-source $herepath/complex_containerazitaion.sh
+source $herepath/ipandgeo.sh
+source $herepath/containerization.sh
 source $herepath/packaging.sh
-
-humannums() {rev | sed 's/.../& /g' | rev|sed 's/^ //'}
-humnums() {humannums}
-humnum() {humnums}
-
-onlynums() {sed 's/[^0-9]//g'}
-onlynum() {onlynums}
-
-remspaces() {
-  tr -d " "
-}
-
-between () {
-	sed -n "s/.*${1}\(.*\)${2}.*/\1/p"
-}
-
-rmstdinfromtoEOF () {
-	sed "s/$1.*//"
-}
+source $herepath/parsing.sh
+source $herepath/systemd.sh
 
 alias count='echo "$(echo "$(ls -a|wc -l)-2"|bc) overall files/dirs in dir"'
 
@@ -74,8 +57,6 @@ vs() { yt-dlp bestvideo+bestaudio $@ }
 au() { mpv --input-ipc-server=/tmp/mpvsocket $@ }
 auv() { mpv --hwdec=qsv --input-ipc-server=/tmp/mpvsocket $@ }
 
-v() { cd ~/v }
-
 ash() { au -shuffle *.mp3 }
 ashv() { au -shuffle * }
 ashh() { 
@@ -87,22 +68,6 @@ ass() { asn 1.5 }
 
 hi() { cat ~/.zsh_history }
 he() { hi | hiremcrap }
-
-sy() { sudo systemctl $@ }
-
-die() { poweroff } 
-re() { reboot }
-
-rammax () {
-	systemd-run --user --scope -p MemoryMax=$1 "${@:2}"
-}
-
-nobeep () {
-	setterm -blength 0
-}
-
-wi() { nmcli dev wifi $@ }
-we() { wi connect $@ }
 
 di() { dict $@ }
 
@@ -143,9 +108,6 @@ pdf_obsolete() { zathura $@ }
 pdf() { mupdf $@ }
 li() { libreoffice $@ }
 
-dk() { docker-compose up --build -d $@ }
-gr() { docker exec -it gitlab-server gitlab-rails console }
-
 ic() { 
   ~/d/g/g/scripts/download_all_vids_from_a_youtube_channel.sh $@ 
 }
@@ -163,42 +125,12 @@ img() { sxiv $@ }
 imgs() { geeqie $@ }
 glo() { grim /tmp/lockscreen.png; swaylock --image /tmp/lockscreen.png; rm /tmp/lockscreen.png }
 
-wip() { 
-  echo "my IP: $(curl -s ipinfo.io/ip)" 
-}
-#it() {  nmap -Pn 86.49.243.46 -p 80,443,8080 } # wtf ????????? no idea what was this shit and why it had the no sense making generic name
-
-clc() {
-  curl localhost:$1
-}
-
 ra() { openssl rand -base64 1000 }
 
 csz() { chsh -s /usr/bin/zsh }
 csd() { chsh -s /usr/bin/dash }
 
 cx() { cal_extended }
-
-tw() { 
-  echo "Real World Onion Sites, Dark.Fail, Ahmia.fi, Torch, Not Evil, Haystak, Onion Links, and The Hidden Wiki tor2web.nl onionengine.com" 
-}
-ts() { torsocks }
-torcurl() { curl --proxy socks5h://localhost:9050 $@ }
-tcurl () { torcurl $@ }
-w3mi() { w3m -o auto_image=TRUE $@ }
-tw3mi() { torsocks w3m -o auto_image=TRUE $@ }
-twm() { torsocks w3m -o auto_image=TRUE $@ }
-trans() { torsocks trans $@ }
-proxies() { 
-  cat ~/d/g/g/proxies/anonymous_proxies|snt; 
-  echo "You have $(echo $(cat ~/d/g/g/proxies/anonymous_proxies|wc -l)-1|bc|snt) anonymous proxies available :-)" 
-}
-torip() { zsh -ic "cd ~/safepath/temp/; tcurl -s https://check.torproject.org|grep IP>tmp.html;w3m -dump -T text/html tmp.html>tmp_w3m;echo;cat tmp_w3m|sed 's/IP/tor IP/'| snt" }
-
-wb() { tcurl wttr.in/Brno }
-wbb() { tcurl https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ }
-wbc() { tcurl -s https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | grep °C }
-wbs() { tcurl -s https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ | grep -A 2 Slunce }
 
 ce() { crontab -e }
 crl() { crontab -l }
@@ -217,10 +149,6 @@ dfr() { df -h /dev/mapper/volgroup0-lv_root }
 
 #ran() { ranger }
 ran() { yz }
-
-tra() { 
-  echo "trans -b :cs \"hi\"; trans -b :en \"jak je?\" " 
-}
 
 pa() { grep -E "^(processor|cpu cores|siblings)" /proc/cpuinfo }
 threads() {echo "$(nproc)*$(lscpu|grep "per core"|onlynums)"|bc}
@@ -255,17 +183,6 @@ clk() { xdotool click 1 }
 
 fa() { fastfetch --logo arch2 }
 
-
-num() { cd ~/d/g/g/numbers }
-canu() { cat ~/d/g/g/numbers/numbers }
-canum() { cat ~/d/g/g/numbers/numbers }
-
-nuls() {
-  canu|grep -Ev  "([0-9].*){9}"
-}
-
-numls() {nuls}
-
 lss() { ls --color }
 lsc() { ls --color }
 
@@ -287,7 +204,7 @@ lsrr() {
 bat() { bat --theme ansi $@ }
 #ccat() { ccat --bg=dark $@ }
 
-zfind() { cat ~/.zshrc|grep }
+zfind() { find $herepath|sed '1d'|iter cat {}|grep $@ }
 
 
 alias lsmimes="grep -hPo  }(?<=<mime-type type=\")[^\"]+' /usr/share/mime/packages/*.xml | sort -u"
