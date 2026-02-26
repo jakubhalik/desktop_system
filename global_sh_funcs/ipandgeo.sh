@@ -45,3 +45,12 @@ tw() {
   echo "Real World Onion Sites, Dark.Fail, Ahmia.fi, Torch, Not Evil, Haystak, Onion Links, and The Hidden Wiki tor2web.nl onionengine.com" 
 }
 
+countriesls() {
+  cat $path_to_encodings_tables_and_such/countries.md
+}
+countries() {countriesls}
+country() {
+  countries|head -n 1
+  countries|ugrep -i $@
+}
+
