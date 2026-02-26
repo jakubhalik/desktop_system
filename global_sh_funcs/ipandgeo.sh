@@ -46,11 +46,21 @@ tw() {
 }
 
 countriesls() {
-  cat $path_to_encodings_tables_and_such/countries.md
+  test $1 = "-l" && (
+    cat $path_to_encodings_tables_and_such/countries_long.md
+  ) || cat $path_to_encodings_tables_and_such/countries.md
 }
-countries() {countriesls}
+countries() {countriesls $@}
 country() {
-  countries|head -n 1
-  countries|ugrep -i $@
+  test $1 = "-l" && (
+    countries -l|head -n 1
+    countries -l|ugrep -i $2
+  ) || test $2 = "-l" && (
+    countries -l|head -n 1
+    countries -l|ugrep -i $1
+  ) || (
+    countries|head -n 1
+    countries|ugrep -i $@
+  )
 }
 
