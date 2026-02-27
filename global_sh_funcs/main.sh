@@ -12,7 +12,13 @@ source $herepath/packaging.sh
 source $herepath/parsing.sh
 source $herepath/systemd.sh
 
-alias count='echo "$(echo "$(ls -a|wc -l)-2"|bc) overall files/dirs in dir"'
+count() { 
+  if read; then
+    wc -l
+  else
+    echo "$(echo "$(ls -a|wc -l)-2"|bc) overall files/dirs in dir" 
+  fi
+}
 
 common() { comm }
 common_lines_between_files_or_inputs() { comm }
@@ -103,6 +109,7 @@ gi() { gimp $@ }
 ne() { neofetch }
 nem() { ne | grep Memory }
 da() { df -h|head -n 1;df -h|grep -E "root|home"; acpi; nem; }
+howbig() { du -h $@ }
 
 pdf_obsolete() { zathura $@ }
 pdf() { mupdf $@ }
