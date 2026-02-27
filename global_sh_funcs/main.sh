@@ -54,6 +54,12 @@ bd() { bun run dev }
 bbu() { bun run build }
 
 br() { brave }
+savebrave() {
+  rm ~/.config/BraveSoftware/Brave-Browser/SingletonLock
+  rm ~/.config/BraveSoftware/Brave-Browser/SingletonCookie
+  rm ~/.config/BraveSoftware/Brave-Browser/SingletonSocket
+}
+
 fir() { firefox -no-remote -ProfileManager }
 to() { tor-browser }
 
