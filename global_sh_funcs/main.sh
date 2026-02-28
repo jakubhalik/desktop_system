@@ -39,7 +39,7 @@ blp() {
 }
 
 nv() { nvim $@ }
-z() { nv ~/.zshrc }
+zs() { nv ~/.zshrc }
 vz() { vim ~/.zshrc }
 nvt() { nvim --cmd te }
 
@@ -267,7 +267,7 @@ synthigh() {
 synt() { 
   synthigh
 }
-synt() { 
+snt() { 
   synt
 }
 
