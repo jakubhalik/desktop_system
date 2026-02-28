@@ -214,7 +214,7 @@ lsrr() {
   ls -R |grep "$1" | sed -E "s/($1)/\x1b[31m\1\x1b[0m/g"
 }
 
-bat() { bat --theme ansi $@ }
+alias bat='bat --theme ansi'
 #ccat() { ccat --bg=dark $@ }
 
 zfind() { find $herepath|sed '1d'|iter cat {}|grep $@ }
