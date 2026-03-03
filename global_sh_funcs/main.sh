@@ -13,7 +13,7 @@ source $herepath/parsing.sh
 source $herepath/systemd.sh
 
 count() { 
-  if read; then
+  if read -t "0.01"; then
     wc -l
   else
     echo "$(echo "$(ls -a|wc -l)-2"|bc) overall files/dirs in dir" 
