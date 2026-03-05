@@ -61,6 +61,59 @@ tw() {
   echo "Real World Onion Sites, Dark.Fail, Ahmia.fi, Torch, Not Evil, Haystak, Onion Links, and The Hidden Wiki tor2web.nl onionengine.com" 
 }
 
+host_web_text_that_will_stop_being_hosted_after_being_fetched_once() {
+  test $(echo $2) || (echo "Usage: $0 <plaintext to put on the website> <port to host on>" && exit 1)
+  (
+    echo "HTTP/1.1 200 OK"
+    echo "Content-Length: $(echo $1|wc -c)"
+    echo ""
+    echo "$1"
+  ) | nc -l -p $2
+}
+
+get_server() {
+  test $(echo $2) || (echo "Usage: $0 <plaintext to put on the website> <port to host on>" && exit 1)
+  dash -c '
+    msg="$1"
+    port="$2"
+    while true; do
+      {
+        printf "HTTP/1.1 200 OK\r\n"
+        printf "Content-Type: text/plain\r\n"
+        printf "Content-Length: %s\r\n" "$(printf "%s" "$msg" | wc -c)"
+        printf "\r\n"
+        printf "%s" "$msg"
+      } | nc -l -p "$port"
+    done
+  ' dash "$1" "$2"
+}
+
+clc() {
+  curl localhost:$1
+}
+cl() {
+  curl $1
+}
+
+c_test() {
+  test $(echo $1) || (echo "Usage: $0 <port to be forever curling>" && exit 1)
+  seq 1 99999999999999999999999999999999999999999999999999999999999999999999999|iter dash -c 'timeout 0.1s curl $1; echo {}' dash $1
+}
+cct() {c_test $@}
+clc_test() {
+  c_test localhost:$1
+}
+
+clct() {clc_test $@}
+
+clp() {
+  curl -X POST localhost:$1 -H "Content-Type: application/json" -d $2
+}
+
+clu() {
+  curl -X PUT localhost:$1 -H "Content-Type: application/json" -d $2
+}
+
 countriesls() {
   test $1 = "-l" && (
     cat $path_to_encodings_tables_and_such/countries_long.md
