@@ -34,7 +34,23 @@ proxies() {
   echo "You have $(echo $(cat ~/d/g/g/proxies/anonymous_proxies|wc -l)-1|bc|snt) anonymous proxies available :-)" 
 }
 
-torip() { zsh -ic "cd ~/safepath/temp/; tcurl -s https://check.torproject.org|grep IP>tmp.html;w3m -dump -T text/html tmp.html>tmp_w3m;echo;cat tmp_w3m|sed 's/IP/tor IP/'| snt" }
+#torip() { zsh -ic "cd ~/safepath/temp/; tcurl -s https://check.torproject.org|grep IP>tmp.html;w3m -dump -T text/html tmp.html>tmp_w3m;echo;cat tmp_w3m|sed 's/IP/tor IP/'| snt" }
+torip () {
+	tcurl -s https://check.torproject.org/api/ip | jq .IP
+}
+torwherestyledefault=false
+torwherestyle() {
+	TORIP=$(echo $(torip|tr -d '"')) 
+	echo $TORIP | bat --theme ansi -l env
+	torsocks geoiplookup $TORIP | blp
+}
+torwhere () {
+  test "$torwherestyledefault" = true && ( torwherestyle ) || (
+    TORIP=$(echo $(torip|tr -d '"')) 
+    echo $TORIP
+    torsocks geoiplookup $TORIP
+  )
+}
 
 wb() { tcurl wttr.in/Brno }
 wbb() { tcurl https://www.in-pocasi.cz/predpoved-pocasi/cz/jihomoravsky/brno-25/ }
