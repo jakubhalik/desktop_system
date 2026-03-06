@@ -38,6 +38,22 @@ asci() { ascii }
 regex() {
   cat $path_to_encodings_tables_and_such/regex.md
 }
+speeds() {
+  test $1 = "-l" && (
+    cat $path_to_encodings_tables_and_such/speeds.md
+  ) || (
+    cat $path_to_encodings_tables_and_such/speeds.md | head -n 300
+  )
+}
+headers() {
+  test $1 = "--base" && (
+    cat $path_to_encodings_tables_and_such/headers.md
+  ) || test $1 = "-p" && (
+    bat -l md --no-pager $path_to_encodings_tables_and_such/headers.md
+  ) || (
+    bat -l md $path_to_encodings_tables_and_such/headers.md
+  )
+}
 
 num() { cd ~/d/g/g/numbers }
 canu() { cat ~/d/g/g/numbers/numbers }

@@ -44,3 +44,8 @@ pakstat() {
 license() {
   pacman -Si $1 | ugrep License
 }
+
+licensey() {
+  yay -Si $1 | ugrep License
+}
+licensy() {licensey}
