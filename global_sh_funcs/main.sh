@@ -231,6 +231,29 @@ istmpgon() {
 
 vlcmin() { vlc --intf dummy $@ }
 
+vidquality() {
+	ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of default=noprint_wrappers=1:nokey=1 $@
+}
+vidqual() {vidquality $@}
+vidq() {vidquality $@}
+quality() {vidq $@}
+
+tldrify_and_install() {
+  randomzus=$RANDOM$RANDOM$RANDOM
+  echo '
+    tldrify() {
+      cp $1.md ~/.cache/tldr/pages/common/$1.md
+      cp $1.md ~/.cache/tlrc/pages.en/common/$1.md
+    }
+    tldrify $1
+    read -sp "Enter sudo pass: " sudo_pass 
+    rustc $1.rs && echo "$sudo_pass" | sudo -S install $1 /usr/bin/
+  ' > /tmp/$randomzus
+  chmod +x /tmp/$randomzus
+  /tmp/$randomzus $1
+  rm /tmp/$randomzus
+}
+
 synthigh() { 
   # Define ANSI color codes
   # Using literal escape sequences for sed
