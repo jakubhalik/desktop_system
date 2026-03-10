@@ -238,6 +238,11 @@ vidqual() {vidquality $@}
 vidq() {vidquality $@}
 quality() {vidq $@}
 
+table() {
+  mousepad $@
+}
+tableview() { table $@ }
+
 tldrify_and_install() {
   randomzus=$RANDOM$RANDOM$RANDOM
   echo '
