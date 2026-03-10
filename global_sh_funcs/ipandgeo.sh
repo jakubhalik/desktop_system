@@ -114,6 +114,8 @@ clu() {
   curl -X PUT localhost:$1 -H "Content-Type: application/json" -d $2
 }
 
+# httpgetmess() {http_get_mess $@ }
+
 countriesls() {
   test $1 = "-l" && (
     cat $path_to_encodings_tables_and_such/countries_long.md
