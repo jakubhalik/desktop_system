@@ -45,6 +45,15 @@ speeds() {
     cat $path_to_encodings_tables_and_such/speeds.md | head -n 300
   )
 }
+
+speedsl() {
+  cat $path_to_encodings_tables_and_such/speedsl.md
+}
+
+crypts() {
+  cat $path_to_encodings_tables_and_such/crypts.md
+}
+
 headers() {
   test $1 = "--base" && (
     cat $path_to_encodings_tables_and_such/headers.md
