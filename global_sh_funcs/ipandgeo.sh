@@ -116,6 +116,13 @@ clu() {
 
 # httpgetmess() {http_get_mess $@ }
 
+sshalgos () {
+	ssh -Q kex
+	ssh -Q cipher
+	ssh -Q mac
+	ssh -Q key
+}
+
 countriesls() {
   test $1 = "-l" && (
     cat $path_to_encodings_tables_and_such/countries_long.md
