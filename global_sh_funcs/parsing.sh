@@ -16,3 +16,7 @@ between () {
 rmstdinfromtoEOF () {
 	sed "s/$1.*//"
 }
+
+ripgrep() {
+  rg $@
+}
