@@ -22,4 +22,3 @@ killalltimers() {
   systemctl --user list-units --type=timer | grep run- | awk '{print $1}' | xargs -r systemctl --user disable
 }
 
-

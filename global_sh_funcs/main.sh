@@ -243,6 +243,12 @@ table() {
 }
 tableview() { table $@ }
 
+2onPow () {
+	echo "2^$1" | bc | humnum
+}
+2onpow() {2onPow $@}
+tonpow() {2onPow $@}
+
 tldrify_and_install() {
   randomzus=$RANDOM$RANDOM$RANDOM
   echo '
