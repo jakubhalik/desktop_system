@@ -249,6 +249,15 @@ tableview() { table $@ }
 2onpow() {2onPow $@}
 tonpow() {2onPow $@}
 
+countlanglines() {
+	fd -e $1 | xargs cat | wc -l
+}
+countrustlines() {countlanglines rs}
+countrslines() {countrustlines}
+cntrslines() {countrustlines}
+cntrslns() {countrustlines}
+countshlines() {countlanglines sh}
+
 tldrify_and_install() {
   randomzus=$RANDOM$RANDOM$RANDOM
   echo '
