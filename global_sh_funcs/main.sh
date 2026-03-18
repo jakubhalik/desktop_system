@@ -237,7 +237,13 @@ vidquality() {
 }
 vidqual() {vidquality $@}
 vidq() {vidquality $@}
-quality() {vidq $@}
+imgquality () {
+	file $@ | grep -oE '(^|[^0-9])[0-9]+ x [0-9]+' | grep -oE '[0-9]+ x [0-9]+'
+}
+imgqual() {imgquality $@}
+imgq() {imgquality $@}
+quality() {imgq || vidq $@}
+qual() {quality $@}
 
 table() {
   mousepad $@
