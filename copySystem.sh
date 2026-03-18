@@ -5,6 +5,7 @@ whereFrom=/home/x/d/g/g
 hyprland=$whereFrom/hypr
 waybar=$whereFrom/waybari
 swaync=$whereFrom/swaync
+nvimc=$whereFrom/nvimc
 nvim=$whereFrom/nvim_high_level_langs_config
 
 fromGithub() {
@@ -17,6 +18,7 @@ viaSSH() {
   waybar=$whereFromSSH/waybari
   swaync=$whereFromSSH/swaync
   nvim=$whereFromSSH/nvim_high_level_langs_config
+  nvimc=$whereFromSSH/nvimc
   zshFuncs=$whereFromSSH/desktop_system/global_sh_funcs
 }
 
@@ -25,6 +27,7 @@ clone() {
   git clone $waybar ~/.config/waybari
   git clone $swaync ~/.config/swaync
   git clone $nvim ~/.config/nvim
+  git clone $nvimc ~/.config/nvimc
 }
 
 fullViaSSHSystemCopy() {
