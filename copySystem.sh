@@ -49,4 +49,5 @@ fullViaSSHSystemCopy() {
   #scp -r $userAndIP:$homedir/.ssh ~/
   #scp -r $userAndIP:$homedir/.gnupg ~/
   clone
+  ssh $userAndIP "ls $whereFrom"|iter git clone $userAndIP:$whereFrom/{}
 }
