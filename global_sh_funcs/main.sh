@@ -42,6 +42,7 @@ nv() { nvim $@ }
 zs() { nv ~/.zshrc }
 vz() { vim ~/.zshrc }
 nvt() { nvim --cmd te }
+alias nvimc='NVIM_APPNAME=nvimc nvim'
 
 so() { source $@ }
 
