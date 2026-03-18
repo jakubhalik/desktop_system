@@ -87,4 +87,5 @@ zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' menu select=2
 
 export GITLAB_HOME=/srv/gitlab
+stty -ixon
 
