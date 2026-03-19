@@ -2,6 +2,7 @@
 # whereFrom=/home/username/dir
 #hostname="ur_hostname"
 #userAndIP="x@10.0.0.1"
+#mountpoint=~/somewheremate
 #in .env
 
 iter () {
@@ -15,13 +16,13 @@ waybar=$whereFrom/waybari
 swaync=$whereFrom/swaync
 nvimc=$whereFrom/nvimc
 nvim=$whereFrom/nvim_high_level_langs_config
+zellij=$whereFrom/zellij
 zshFuncs=$where/desktop_system/global_sh_funcs
 
 fromGithub() {
   whereFrom=https://github.com/jakubhalik
 }
 viaSSH() {
-  mountpoint=~/safepath/temp/ssh
   find $mountpoint -maxdepth 0 || mkdir --parents $mountpoint
   cd $mountpoint
   find $hostname -maxdepth 0 || mkdir $hostname
@@ -45,6 +46,7 @@ clone() {
   git clone $swaync ~/.config/swaync
   git clone $nvim ~/.config/nvim
   git clone $nvimc ~/.config/nvimc
+  git clone $zellij ~/.config/zellij
 }
 
 fullViaSSHSystemCopy() {
