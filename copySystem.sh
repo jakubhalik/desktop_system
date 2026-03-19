@@ -56,6 +56,7 @@ fullViaSSHSystemCopy() {
   cd ~/yay
   makepkg -Csi
   ssh $userAndIP "pacman -Qm"|iter yay -S {}
+  ssh $userAndIP "flatpak list --app --columns=application"|iter flatpak install {}
   homedir="/home/x"
   scp $userAndIP:$homedir/.zsh_history ~/
   scp -r $userAndIP:$homedir/.config ~/
