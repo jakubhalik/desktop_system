@@ -30,8 +30,9 @@ viaSSH() {
 
 clone() {
   find $whereFrom -maxdepth 0 || mkdir --parents $whereFrom
-  find $whereFrom/gh -maxdepth 0 || mkdir $whereFrom/gh
-  find $whereFrom/gl -maxdepth 0 || mkdir $whereFrom/gl
+  find $whereFrom/../gh -maxdepth 0 || mkdir $whereFrom/../gh
+  find $whereFrom/../gl -maxdepth 0 || mkdir $whereFrom/../gl
+  find $whereFrom/../gl -maxdepth 0 || mkdir $whereFrom/../gl
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/{} $whereFrom/{}
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gh/{} $whereFrom/..gh/{}
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gl/{} $whereFrom/..gl/{}
