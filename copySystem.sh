@@ -1,28 +1,35 @@
+# have vars like 
+# whereFrom=/home/username/dir
+#hostname="ur_hostname"
+#userAndIP="x@10.0.0.1"
+
 iter () {
 	xargs -I{} $@
 }
-whereFrom=/home/x/d/g/g
+pathToTheseUtils=~/d/g/g/desktop_system
+source $pathToThisScript/.env
+
 hyprland=$whereFrom/hypr
 waybar=$whereFrom/waybari
 swaync=$whereFrom/swaync
 nvimc=$whereFrom/nvimc
 nvim=$whereFrom/nvim_high_level_langs_config
+zshFuncs=$where/desktop_system/global_sh_funcs
 
 fromGithub() {
   whereFrom=https://github.com/jakubhalik
 }
 viaSSH() {
-  userAndIP="x@10.0.0.1" #example
-  whereFromSSH="$userAndIP:$whereFrom"
-  hyprland=$whereFromSSH/hypr
-  waybar=$whereFromSSH/waybari
-  swaync=$whereFromSSH/swaync
-  nvim=$whereFromSSH/nvim_high_level_langs_config
-  nvimc=$whereFromSSH/nvimc
-  zshFuncs=$whereFromSSH/desktop_system/global_sh_funcs
+  mountpoint=~/safepath/temp/ssh
+  find $mountpoint -maxdepth 0 || mkdir --parents $mountpoint
+  cd $mountpoint
+  find $hostname -maxdepth 0 || mkdir $hostname
+  sshfs "$userAndIP:/" $hostname
 }
 
 clone() {
+  find $whereFrom -maxdepth 0 || mkdir --parents $whereFrom
+  ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/{} $whereFrom/{}
   git clone $hyprland ~/.config/hypr
   git clone $waybar ~/.config/waybari
   git clone $swaync ~/.config/swaync
@@ -32,7 +39,7 @@ clone() {
 
 fullViaSSHSystemCopy() {
   viaSSH
-  git clone $zshFuncs ~/d/g/g/desktop_system
+  git clone $zshFuncs $whereFrom/desktop_system
   cp ~/d/g/g/desktop_system/.zshrc ~/.zshrc
   ssh $userAndIP "pacman -Qn"|iter sudo pacman -S --needed {}
   git clone https://aur.archlinux.org/yay ~/
@@ -49,5 +56,4 @@ fullViaSSHSystemCopy() {
   #scp -r $userAndIP:$homedir/.ssh ~/
   #scp -r $userAndIP:$homedir/.gnupg ~/
   clone
-  ssh $userAndIP "ls $whereFrom"|iter git clone $userAndIP:$whereFrom/{}
 }
