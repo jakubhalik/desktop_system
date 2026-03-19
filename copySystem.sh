@@ -33,9 +33,13 @@ clone() {
   find $whereFrom/../gh -maxdepth 0 || mkdir $whereFrom/../gh
   find $whereFrom/../gl -maxdepth 0 || mkdir $whereFrom/../gl
   find $whereFrom/../gl -maxdepth 0 || mkdir $whereFrom/../gl
+  find $whereFrom/../open_source -maxdepth 0 || mkdir $whereFrom/../open_source
+  find $whereFrom/../c -maxdepth 0 || mkdir $whereFrom/../c
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/{} $whereFrom/{}
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gh/{} $whereFrom/..gh/{}
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gl/{} $whereFrom/..gl/{}
+  ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../open_source/{} $whereFrom/..open_source/{}
+  ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../c/{} $whereFrom/..c/{}
   git clone $hyprland ~/.config/hypr
   git clone $waybar ~/.config/waybari
   git clone $swaync ~/.config/swaync
