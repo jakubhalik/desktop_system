@@ -272,6 +272,8 @@ testSequentially () {
 testseq() {testSequentially $@}
 seqtest() {testSequentially $@}
 
+filebrowse() {xplr}
+
 tldrify_and_install() {
   randomzus=$RANDOM$RANDOM$RANDOM
   echo '
