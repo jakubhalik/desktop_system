@@ -49,3 +49,8 @@ licensey() {
   yay -Si $1 | ugrep License
 }
 licensy() {licensey}
+
+all_online_aur_packages_to_file() {
+  tcurl https://aur.archlinux.org/packages.gz > $1
+  gzip -d $1
+}
