@@ -29,7 +29,11 @@ viaSSH() {
 
 clone() {
   find $whereFrom -maxdepth 0 || mkdir --parents $whereFrom
+  find $whereFrom/gh -maxdepth 0 || mkdir $whereFrom/gh
+  find $whereFrom/gl -maxdepth 0 || mkdir $whereFrom/gl
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/{} $whereFrom/{}
+  ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gh/{} $whereFrom/..gh/{}
+  ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gl/{} $whereFrom/..gl/{}
   git clone $hyprland ~/.config/hypr
   git clone $waybar ~/.config/waybari
   git clone $swaync ~/.config/swaync
