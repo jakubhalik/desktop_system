@@ -2,6 +2,7 @@
 # whereFrom=/home/username/dir
 #hostname="ur_hostname"
 #userAndIP="x@10.0.0.1"
+#in .env
 
 iter () {
 	xargs -I{} $@
