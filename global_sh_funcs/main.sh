@@ -284,7 +284,7 @@ tldrify_and_install() {
     tldrify $1
     read -sp "Enter sudo pass: " sudo_pass 
     cargo build --release
-    echo "$sudo_pass" | sudo -S install target/release/$1 /usr/bin/
+    echo "$sudo_pass" | sudo-rs -S install target/release/$1 /usr/bin/
   ' > /tmp/$randomzus
   chmod +x /tmp/$randomzus
   /tmp/$randomzus $1

@@ -2,7 +2,7 @@ timezones() {
   timedatectl list-timezones
 }
 
-czt() { sudo timedatectl set-timezone Europe/Prague }
+czt() { sudo-rs timedatectl set-timezone Europe/Prague }
 
 wi() { nmcli dev wifi $@ }
 we() { wi connect $@ }

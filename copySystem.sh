@@ -53,7 +53,7 @@ fullViaSSHSystemCopy() {
   viaSSH
   git clone $zshFuncs $whereFrom/desktop_system
   cp ~/d/g/g/desktop_system/.zshrc ~/.zshrc
-  ssh $userAndIP "pacman -Qn"|iter sudo pacman -S --needed {}
+  ssh $userAndIP "pacman -Qn"|iter sudo-rs pacman -S --needed {}
   git clone https://aur.archlinux.org/yay ~/
   cd ~/yay
   makepkg -Csi

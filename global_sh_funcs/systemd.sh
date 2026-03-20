@@ -1,4 +1,4 @@
-sy() { sudo systemctl $@ }
+sy() { sudo-rs systemctl $@ }
 
 die() { poweroff } 
 re() { reboot }

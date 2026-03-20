@@ -1,18 +1,18 @@
-sp() { sudo pacman $@ }
+sp() { sudo-rs pacman $@ }
 i() { sp -S --needed $@ }
 u() { sp -Syu }
 y() { yay $@ }
 ys() { y -S $@ }
 yu() { y -Syu $@ }
 mp() { makepkg -si $@ }
-mc() { sudo make clean install $@ }
+mc() { sudo-rs make clean install $@ }
 
 uninstall () {
-	sudo rm $(which $1)
+	sudo-rs rm $(which $1)
 }
 
 instal () {
-	sudo install $1 /usr/bin/
+	sudo-rs install $1 /usr/bin/
 }
 
 ispac() { 
