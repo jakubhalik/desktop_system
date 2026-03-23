@@ -2,6 +2,7 @@ dk() { docker-compose up --build -d $@ }
 gr() { docker exec -it gitlab-server gitlab-rails console }
 
 docker_fix_pacman_ers() {
+  pacman -Sy --noconfirm archlinux-keyring && pacman -Su
   pacman-key --init
   pacman-key --populate archlinux
   pacman -Syu
