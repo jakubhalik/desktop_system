@@ -6,12 +6,19 @@ docker_fix_pacman_ers() {
   pacman-key --populate archlinux
   pacman -Syu
 }
+dockerfixpacmaners() {
+docker_fix_pacman_ers
+}
+dockerfixpacmanerrs() {
+docker_fix_pacman_ers
+}
 
 getdockercontainersip() {
   docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $@
 }
 getdockerip() {getdockercontainersip $@}
 dockerip() {getdockercontainersip $@}
+dockersip() {getdockercontainersip $@}
 dockercontainersip() {getdockercontainersip $@}
 containerip() {getdockercontainersip $@}
 get_docker_ip() {getdockercontainersip $@}
