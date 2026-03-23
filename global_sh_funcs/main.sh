@@ -106,6 +106,7 @@ commitamount() {
 commitcount() { commitamount }
 comitcount() { commitamount }
 comitamount() { commitamount }
+cma() { commitamount }
 
 math() { bc }
 ma() { ma }
