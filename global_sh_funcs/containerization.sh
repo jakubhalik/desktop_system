@@ -7,6 +7,22 @@ docker_fix_pacman_ers() {
   pacman -Syu
 }
 
+getdockercontainersip() {
+  docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $@
+}
+getdockerip() {getdockercontainersip $@}
+dockerip() {getdockercontainersip $@}
+dockercontainersip() {getdockercontainersip $@}
+containerip() {getdockercontainersip $@}
+get_docker_ip() {getdockercontainersip $@}
+get_docker_container_ip() {getdockercontainersip $@}
+get_docker_containers_ip() {getdockercontainersip $@}
+get_containers_ip() {getdockercontainersip $@}
+docker_ip() {getdockercontainersip $@}
+docker_container_ip() {getdockercontainersip $@}
+docker_containers_ip() {getdockercontainersip $@}
+containers_ip() {getdockercontainersip $@}
+
 gamecontainer() {
   id=$$-$(date +%s%N)
   mkdir -p /tmp/sandbox-$id/{home,local,config,cache}
