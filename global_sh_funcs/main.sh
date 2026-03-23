@@ -175,6 +175,18 @@ bit() { arch }
 
 lsfs() {df -T|grep root |awk '{print $2}'}
 lsusers() {cat /etc/passwd}
+lsusrs() {ls /home}
+lsrealusrs() {lsusrs}
+lsrealusers() {lsusrs}
+ls_real_usrs() {lsusrs}
+ls_rel_usrs() {lsusrs}
+ls_home_users() {lsusrs}
+lshomeusers() {lsusrs}
+lshome() {lsusrs}
+lsh() {lsusrs}
+lshusrs() {lsusrs}
+lshomeusrs() {lsusrs}
+ls_home_usrs() {lsusrs}
 
 ho() { hyprlock }
 sho() { systemctl suspend; hyprlock }
