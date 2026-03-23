@@ -14,6 +14,9 @@ dockerfixpacmanerrs() {
 docker_fix_pacman_ers
 }
 
+dockerescape() {ssh $1@172.17.0.1}
+dockeresc() { dockerescape $@ }
+
 getdockercontainersip() {
   docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $@
 }
