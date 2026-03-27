@@ -176,6 +176,10 @@ architecture() {
 arch() { architecture }
 bit() { arch }
 
+memtop () {
+	htop -p $(pgrep -d, -f .)
+}
+
 lsfs() {df -T|grep root |awk '{print $2}'}
 lsusers() {cat /etc/passwd}
 lsusrs() {ls /home}
