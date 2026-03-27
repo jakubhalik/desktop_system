@@ -45,7 +45,7 @@ copy() {
 
 clone() {
   git clone $hyprland ~/.config/hypr
-  git clone $waybar ~/.config/waybari
+  git clone $waybar ~/.config/waybar
   git clone $swaync ~/.config/swaync
   git clone $nvim ~/.config/nvim
   git clone $nvimc ~/.config/nvimc
