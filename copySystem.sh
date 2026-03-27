@@ -29,7 +29,7 @@ viaSSH() {
   sshfs "$userAndIP:/" $hostname
 }
 
-clone() {
+copy() {
   find $whereFrom -maxdepth 0 || mkdir --parents $whereFrom
   find $whereFrom/../gh -maxdepth 0 || mkdir $whereFrom/../gh
   find $whereFrom/../gl -maxdepth 0 || mkdir $whereFrom/../gl
@@ -41,6 +41,9 @@ clone() {
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../gl/{} $whereFrom/..gl/{}
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../open_source/{} $whereFrom/..open_source/{}
   ls $mountpoint/$whereFrom | iter git clone $mountpoint/$whereFrom/../c/{} $whereFrom/..c/{}
+}
+
+clone() {
   git clone $hyprland ~/.config/hypr
   git clone $waybar ~/.config/waybari
   git clone $swaync ~/.config/swaync
@@ -68,5 +71,6 @@ fullViaSSHSystemCopy() {
   scp -r $userAndIP:$homedir/.themes ~/
   #scp -r $userAndIP:$homedir/.ssh ~/
   #scp -r $userAndIP:$homedir/.gnupg ~/
+  copy
   clone
 }
