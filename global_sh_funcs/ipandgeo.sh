@@ -17,14 +17,15 @@ clc() {
 }
 
 ts() { torsocks }
-torcurl() { curl --proxy socks5h://localhost:9050 $@ }
+#torcurl() { curl --proxy socks5h://localhost:9050 $@ }
+torcurl() { torsocks --isolate curl $@ }
 tcurl () { torcurl $@ }
 
 w3mi() { w3m -o auto_image=TRUE $@ }
-tw3mi() { torsocks w3m -o auto_image=TRUE $@ }
-twm() { torsocks w3m -o auto_image=TRUE $@ }
+tw3mi() { torsocks --isolate w3m -o auto_image=TRUE $@ }
+twm() { tw3mi $@ }
 
-trans() { torsocks trans $@ }
+trans() { torsocks --isolate trans $@ }
 tra() { 
   echo "trans -b :cs \"hi\"; trans -b :en \"jak je?\" " 
 }
@@ -42,13 +43,13 @@ torwherestyledefault=false
 torwherestyle() {
 	TORIP=$(echo $(torip|tr -d '"')) 
 	echo $TORIP | bat --theme ansi -l env
-	torsocks geoiplookup $TORIP | blp
+	torsocks --isolate geoiplookup $TORIP | blp
 }
 torwhere () {
   test "$torwherestyledefault" = true && ( torwherestyle ) || (
     TORIP=$(echo $(torip|tr -d '"')) 
     echo $TORIP
-    torsocks geoiplookup $TORIP
+    torsocks --isolate geoiplookup $TORIP
   )
 }
 
